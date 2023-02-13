@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "angular-form-5b731": {
+      "hosting": {
+        "crud": [
+          "angular-form-5b731"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "angular-form-5b731"
+  }
+}

@@ -3,6 +3,7 @@
 # Compiled output
 /dist
 /tmp
+/environments
 /out-tsc
 /bazel-out
 
@@ -40,3 +41,8 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json
