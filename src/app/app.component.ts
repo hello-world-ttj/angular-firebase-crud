@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Firestore,collection,addDoc,collectionData,doc,updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, collectionData, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Storage,ref,uploadBytesResumable,getDownloadURL } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 @Component({
   selector: 'app-root',
@@ -8,20 +9,29 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent {
 
-  userData !: Observable <any>
+  userData !: Observable<any>
+  
+  file: any
+  
+  imageUrl:any
 
-  constructor(private firestore: Firestore) { 
+  constructor(private firestore: Firestore, private store: Storage) { 
     this.getData()
   }
 
   addData(f:any) {
     //console.log(f.value);
+    let data = {
+      values: f.value,
+      img:this.imageUrl
+    }
     const userCollection = collection(this.firestore, 'users')
-    addDoc(userCollection, f.value).then(() => { 
+    addDoc(userCollection, data).then(() => { 
       console.log("Data added successfully")
     }).catch((err) => {
       console.log(err)
     })
+    f.value = ''
   }
 
 
@@ -55,5 +65,30 @@ export class AppComponent {
     })
   }
 
+  upFile(event: any) {
+    this.file = event.target.files[0]
+    // console.log(this.file)
+  }
+
+  addFile() {
+    console.log(this.file.name)
+    const storageRef = ref(this.store, this.file.name)
+    const uploadImg = uploadBytesResumable(storageRef, this.file)
+    uploadImg.on('state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+      },
+      (err) => {
+        console.log(err)
+      },
+      () => {
+        getDownloadURL(uploadImg.snapshot.ref).then((downloadURL) => {
+          console.log('File available at', downloadURL);
+          this.imageUrl=downloadURL
+        });
+      }
+    )
+  }
 
 }

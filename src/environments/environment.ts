@@ -3,6 +3,7 @@ export const environment = {
     projectId: 'angular-form-5b731',
     appId: '1:766690134461:web:7bb6332cf543249cd3aad4',
     storageBucket: 'angular-form-5b731.appspot.com',
+    locationId: 'us-central',
     apiKey: 'AIzaSyD-RVZDN4YRHaPl25EVecxi5tzKoXy7y7c',
     authDomain: 'angular-form-5b731.firebaseapp.com',
     messagingSenderId: '766690134461',
